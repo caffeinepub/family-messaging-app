@@ -7,22 +7,52 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
-export interface Message {
-    content: string;
-    sender: Principal;
-    timestamp: bigint;
+export class ExternalBlob {
+    getBytes(): Promise<Uint8Array<ArrayBuffer>>;
+    getDirectURL(): string;
+    static fromURL(url: string): ExternalBlob;
+    static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
+    withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
+}
+export interface ShoppingCart {
+    total: bigint;
+    items: Array<CartItem>;
+}
+export interface CartItem {
+    quantity: bigint;
+    product: Product;
 }
 export interface UserProfile {
-    username: string;
-    messages: Array<Message>;
-    userID: Principal;
+    name: string;
+    email: string;
+    shippingAddress: string;
+}
+export interface Product {
+    name: string;
+    description: string;
+    image: ExternalBlob;
+    price: bigint;
+}
+export enum UserRole {
+    admin = "admin",
+    user = "user",
+    guest = "guest"
 }
 export interface backendInterface {
-    clearMessages(): Promise<void>;
-    getAllUserProfiles(): Promise<Array<UserProfile>>;
-    getFamilyMemberList(): Promise<Array<UserProfile>>;
-    getMessages(): Promise<Array<Message>>;
-    getUserProfile(): Promise<UserProfile>;
-    registerUser(username: string): Promise<void>;
-    sendMessage(recipientID: Principal, content: string, timestamp: bigint): Promise<void>;
+    addItemToCart(productId: string, quantity: bigint): Promise<void>;
+    assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    checkout(): Promise<void>;
+    clearCart(): Promise<void>;
+    createProduct(id: string, name: string, description: string, price: bigint, image: ExternalBlob): Promise<void>;
+    deleteProduct(productId: string): Promise<void>;
+    getAllProducts(): Promise<Array<Product>>;
+    getCallerUserProfile(): Promise<UserProfile | null>;
+    getCallerUserRole(): Promise<UserRole>;
+    getCart(): Promise<ShoppingCart>;
+    getProduct(productId: string): Promise<Product | null>;
+    getUserProfile(user: Principal): Promise<UserProfile | null>;
+    isCallerAdmin(): Promise<boolean>;
+    removeItemFromCart(itemIndex: bigint): Promise<void>;
+    saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    updateProductPrice(productId: string, newPrice: bigint): Promise<void>;
 }

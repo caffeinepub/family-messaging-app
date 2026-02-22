@@ -1,79 +1,203 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Fix UI blur and improve WhatsApp-like usability",
+  "title": "Transform app into Bhai Bhai Fertilizer e-commerce platform - Frontend",
   "requirements": [
     {
-      "id": "REQ-7",
-      "summary": "Remove or reduce CSS blur effects to improve readability and interaction",
+      "id": "REQ-10",
+      "summary": "Replace the family messaging application with an e-commerce platform for Bhai Bhai Fertilizer company",
       "acceptanceCriteria": [
-        "All text and UI elements are sharp and clearly readable",
-        "No visual blur effects obstruct user interaction",
-        "Interface renders crisply on standard displays"
+        "Application is rebranded as Bhai Bhai Fertilizer",
+        "Messaging functionality is removed",
+        "E-commerce functionality is implemented"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ChatView.tsx",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Remove or reduce backdrop-blur CSS class from the background image container to eliminate blur effects that obstruct content readability. Ensure the background image does not interfere with message visibility."
+          "description": "Update app title from family chat to 'Bhai Bhai Fertilizer - Quality Agricultural Products'"
         },
         {
-          "path": "frontend/src/index.css",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Review and remove any global blur-related CSS properties or utility classes that may be causing interface elements to appear blurry. Ensure all text rendering is optimized for clarity with appropriate font-smoothing settings."
+          "description": "Replace ChatView with ProductCatalog as the main authenticated view. Use the authorization component to ensure users are logged in before accessing the shop. Maintain authentication flow for Internet Identity login and user profile setup."
+        },
+        {
+          "path": "frontend/src/components/ChatView.tsx",
+          "operation": "delete",
+          "description": "Remove the chat interface component as messaging functionality is no longer needed"
+        },
+        {
+          "path": "frontend/src/components/FamilyMemberList.tsx",
+          "operation": "delete",
+          "description": "Remove family member list component as it is part of the messaging system being replaced"
+        },
+        {
+          "path": "frontend/src/components/MessageInput.tsx",
+          "operation": "delete",
+          "description": "Remove message input component as messaging functionality is no longer needed"
+        },
+        {
+          "path": "frontend/src/components/MessageList.tsx",
+          "operation": "delete",
+          "description": "Remove message list component as messaging functionality is no longer needed"
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "modify",
+          "description": "Update layout header to display 'Bhai Bhai Fertilizer' branding with the generated logo from frontend/public/assets/generated/logo.dim_200x200.png. Add navigation links for Products and Cart. Integrate LoginButton from authorization component usage instructions. Update footer as appropriate for an e-commerce site."
         }
       ]
     },
     {
-      "id": "REQ-8",
-      "summary": "Improve interface responsiveness and interaction patterns to match WhatsApp-style usability",
+      "id": "REQ-11",
+      "summary": "Implement a product catalog system to display fertilizer products with name, description, price, and product images",
       "acceptanceCriteria": [
-        "Message sending is instant and responsive",
-        "Chat interactions feel smooth and natural",
-        "Navigation between conversations is fluid",
-        "Touch/click targets are appropriately sized and responsive"
+        "Products can be stored and retrieved from backend",
+        "Product catalog displays all available fertilizer products",
+        "Each product shows name, description, price, and image"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/MessageInput.tsx",
-          "operation": "modify",
-          "description": "Optimize message sending flow to provide immediate visual feedback. Ensure the textarea clears instantly on send, add optimistic UI updates, and improve button responsiveness. Verify touch targets meet minimum size requirements (44x44px) for mobile usability."
+          "path": "frontend/src/components/ProductCatalog.tsx",
+          "operation": "create",
+          "description": "Create product catalog view that fetches and displays all products using getAllProducts backend method. Display products in a responsive grid with product cards showing name, description, price, and image (using ExternalBlob.getDirectURL() for image display). Include 'Add to Cart' button for each product. Use the blob-storage component for image handling. Verify the blob-storage component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/MessageList.tsx",
-          "operation": "modify",
-          "description": "Enhance message list scrolling smoothness and auto-scroll behavior. Ensure message rendering is performant and that new messages appear instantly with smooth animations. Optimize the date separator rendering to avoid layout shifts."
-        },
-        {
-          "path": "frontend/src/components/FamilyMemberList.tsx",
-          "operation": "modify",
-          "description": "Improve family member selection responsiveness with instant visual feedback. Ensure click/tap targets are appropriately sized and that selection state changes are immediate and clear. Add hover states for better desktop usability."
+          "path": "frontend/src/components/ProductCard.tsx",
+          "operation": "create",
+          "description": "Create reusable product card component that displays a single product with image (using ExternalBlob.getDirectURL()), name, description, formatted price, and 'Add to Cart' button. Handle the addItemToCart backend method call with quantity 1. Include loading states and error handling."
         },
         {
           "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Review and optimize the message polling interval (currently 3 seconds) and implement optimistic updates for sendMessage mutation to provide instant feedback when sending messages, matching WhatsApp's immediate response pattern."
+          "description": "Remove all message and family member related queries. Add new queries for product catalog (useGetAllProducts), individual product (useGetProduct), and mutation for adding items to cart (useAddItemToCart). Include proper React Query cache invalidation and optimistic updates where appropriate."
         }
       ]
     },
     {
-      "id": "REQ-9",
-      "summary": "Optimize ChatView background styling to ensure content readability",
+      "id": "REQ-12",
+      "summary": "Create a shopping cart system that allows customers to add products, adjust quantities, and view cart total",
       "acceptanceCriteria": [
-        "Background images or patterns do not reduce text contrast",
-        "Message bubbles are clearly distinguishable from the background",
-        "All UI controls remain visible and accessible"
+        "Customers can add products to cart",
+        "Customers can adjust product quantities in cart",
+        "Cart displays subtotal and total price",
+        "Cart persists during session"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ChatView.tsx",
-          "operation": "modify",
-          "description": "Adjust the background image opacity, overlay, or positioning to ensure message content remains readable. The generated background image at frontend/public/assets/generated/chat-background.dim_1200x800.png should be used with appropriate opacity or overlay to prevent contrast issues. Ensure message bubbles have sufficient contrast against the background."
+          "path": "frontend/src/components/ShoppingCart.tsx",
+          "operation": "create",
+          "description": "Create shopping cart view that fetches cart data using getCart backend method. Display cart items with product details, quantity controls (increment/decrement using addItemToCart and removeItemFromCart), and individual item totals. Show cart total prominently. Include 'Proceed to Checkout' button. Handle empty cart state. Use ExternalBlob.getDirectURL() for product images in cart. Verify the blob-storage component's usage instructions before implementing."
         },
+        {
+          "path": "frontend/src/components/CartIcon.tsx",
+          "operation": "create",
+          "description": "Create cart icon component for header navigation showing item count badge. Make it clickable to navigate to cart page."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add queries for cart management: useGetCart (with polling to keep cart synchronized), useRemoveItemFromCart mutation, and useClearCart mutation. Ensure mutations invalidate cart queries to refresh UI."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add routing to support navigation between ProductCatalog and ShoppingCart views. Ensure authenticated users can navigate between product browsing and cart management."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Implement a checkout process that allows customers to complete purchases with order confirmation",
+      "acceptanceCriteria": [
+        "Customers can proceed from cart to checkout",
+        "Checkout collects shipping and contact information",
+        "Orders are stored in backend with unique order IDs",
+        "Order confirmation is displayed after successful purchase"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CheckoutForm.tsx",
+          "operation": "create",
+          "description": "Create checkout form component that displays order summary from cart and collects shipping address and contact information. Validate form inputs. Call checkout backend method to complete purchase. Handle success and error states. On successful checkout, navigate to order confirmation."
+        },
+        {
+          "path": "frontend/src/components/OrderConfirmation.tsx",
+          "operation": "create",
+          "description": "Create order confirmation view that displays success message after checkout completion. Show order details and thank you message. Include link to return to product catalog."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useCheckout mutation that calls the checkout backend method. On success, invalidate cart queries and navigate to confirmation page. Include error handling for failed checkouts."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add routes for CheckoutForm and OrderConfirmation views. Ensure checkout flow requires authentication and that order confirmation is properly wired into the routing system."
+        }
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "summary": "Implement customer authentication using Internet Identity to allow customers to securely log in and manage their orders",
+      "acceptanceCriteria": [
+        "Customers can log in using Internet Identity",
+        "Customer profiles are stored with order history",
+        "Authenticated customers can view their past orders"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/AuthScreen.tsx",
+          "operation": "modify",
+          "description": "Update authentication screen to reflect Bhai Bhai Fertilizer branding. Keep Internet Identity login flow and username registration. Use the authorization component following the usage instructions provided. Ensure proper profile setup modal prevents flash by checking isFetched before showing profile setup."
+        },
+        {
+          "path": "frontend/src/components/UserProfile.tsx",
+          "operation": "create",
+          "description": "Create user profile component that allows customers to view and edit their profile information including name, email, and shipping address using getCallerUserProfile and saveCallerUserProfile backend methods. Use the authorization component's profile management capabilities. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Ensure user profile queries (useGetCallerUserProfile, useSaveCallerUserProfile) are implemented following the authorization component's usage instructions. Include proper loading states and prevent profile setup modal flash by using the pattern from the authorization usage documentation."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add route for UserProfile view. Ensure it's accessible from the navigation when user is authenticated. On logout, clear all cached application data including user profile and cart data."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Design a professional e-commerce visual theme for a fertilizer company with agricultural colors (greens and earth tones), clear product photography layouts, and trust-building design elements",
+      "acceptanceCriteria": [
+        "Visual theme uses agricultural color palette",
+        "Layout is optimized for product browsing and purchasing",
+        "Design conveys professionalism and trustworthiness"
+      ],
+      "file_operations": [
         {
           "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Review and enhance message bubble styling utilities to ensure they provide adequate contrast against the background. Adjust background colors, borders, or shadows on message bubbles to ensure clear visual separation from the ChatView background."
+          "description": "Replace the warm family chat color palette with an agricultural theme using greens (#22c55e, #16a34a, #15803d) and earth tones (#92400e, #78350f, #a16207) in OKLCH color space. Remove message bubble styles and chat-specific animations. Add styles for product cards, cart items, and e-commerce UI elements. Ensure professional typography and spacing that builds trust."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Update Tailwind configuration to use agricultural color palette as custom theme colors. Define semantic color tokens for products, cart, checkout, and trust elements. Ensure responsive design utilities are configured for optimal product browsing on all devices."
+        },
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "create",
+          "description": "Create hero section component for the main product catalog page featuring the generated hero banner image from frontend/public/assets/generated/hero-banner.dim_1200x400.png. Include compelling headline about Bhai Bhai Fertilizer quality and trust messaging. Use agricultural color theme and professional layout."
+        },
+        {
+          "path": "frontend/src/components/ProductCatalog.tsx",
+          "operation": "modify",
+          "description": "Integrate HeroSection component at the top of the product catalog. Ensure the layout uses agricultural theme colors and professional spacing that conveys expertise and reliability."
         }
       ]
     }

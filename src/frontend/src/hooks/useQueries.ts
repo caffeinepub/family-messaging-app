@@ -1,106 +1,142 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { UserProfile, Message } from '../backend';
-import { Principal } from '@dfinity/principal';
+import type { UserProfile, Product, ShoppingCart } from '../backend';
 
-export function useUserProfile() {
+// User Profile Queries
+export function useGetCallerUserProfile() {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  const query = useQuery<UserProfile | null>({
+    queryKey: ['currentUserProfile'],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.getCallerUserProfile();
+    },
+    enabled: !!actor && !actorFetching,
+    retry: false,
+  });
+
+  return {
+    ...query,
+    isLoading: actorFetching || query.isLoading,
+    isFetched: !!actor && query.isFetched,
+  };
+}
+
+export function useSaveCallerUserProfile() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (profile: UserProfile) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.saveCallerUserProfile(profile);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
+    },
+  });
+}
+
+// Product Queries
+export function useGetAllProducts() {
   const { actor, isFetching } = useActor();
 
-  return useQuery<UserProfile | null>({
-    queryKey: ['userProfile'],
+  return useQuery<Product[]>({
+    queryKey: ['products'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAllProducts();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useGetProduct(productId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<Product | null>({
+    queryKey: ['product', productId],
     queryFn: async () => {
       if (!actor) return null;
-      try {
-        return await actor.getUserProfile();
-      } catch (error) {
-        // User not registered yet
-        return null;
-      }
+      return actor.getProduct(productId);
     },
-    enabled: !!actor && !isFetching,
+    enabled: !!actor && !isFetching && !!productId,
   });
 }
 
-export function useRegisterUser() {
+// Cart Queries
+export function useGetCart() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<ShoppingCart>({
+    queryKey: ['cart'],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.getCart();
+    },
+    enabled: !!actor && !isFetching,
+    refetchInterval: 5000, // Poll every 5 seconds to keep cart synchronized
+  });
+}
+
+export function useAddItemToCart() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (username: string) => {
+    mutationFn: async ({ productId, quantity }: { productId: string; quantity: bigint }) => {
       if (!actor) throw new Error('Actor not initialized');
-      await actor.registerUser(username);
+      await actor.addItemToCart(productId, quantity);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-      queryClient.invalidateQueries({ queryKey: ['familyMembers'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }
 
-export function useFamilyMembers() {
-  const { actor, isFetching } = useActor();
-
-  return useQuery<UserProfile[]>({
-    queryKey: ['familyMembers'],
-    queryFn: async () => {
-      if (!actor) return [];
-      return await actor.getFamilyMemberList();
-    },
-    enabled: !!actor && !isFetching,
-  });
-}
-
-export function useMessages() {
-  const { actor, isFetching } = useActor();
-
-  return useQuery<Message[]>({
-    queryKey: ['messages'],
-    queryFn: async () => {
-      if (!actor) return [];
-      return await actor.getMessages();
-    },
-    enabled: !!actor && !isFetching,
-    refetchInterval: 2000, // Poll every 2 seconds for faster updates
-  });
-}
-
-export function useSendMessage() {
+export function useRemoveItemFromCart() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ recipientID, content }: { recipientID: string; content: string }) => {
+    mutationFn: async (itemIndex: bigint) => {
       if (!actor) throw new Error('Actor not initialized');
-      const principal = Principal.fromText(recipientID);
-      const timestamp = BigInt(Date.now());
-      await actor.sendMessage(principal, content, timestamp);
-    },
-    onMutate: async () => {
-      // Optimistic update - immediately refetch to show sending state
-      await queryClient.cancelQueries({ queryKey: ['messages'] });
+      await actor.removeItemFromCart(itemIndex);
     },
     onSuccess: () => {
-      // Invalidate to fetch the actual message from backend
-      queryClient.invalidateQueries({ queryKey: ['messages'] });
-    },
-    onError: () => {
-      // Refetch on error to ensure consistency
-      queryClient.invalidateQueries({ queryKey: ['messages'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }
 
-export function useClearMessages() {
+export function useClearCart() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
       if (!actor) throw new Error('Actor not initialized');
-      await actor.clearMessages();
+      await actor.clearCart();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['messages'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+  });
+}
+
+// Checkout Mutation
+export function useCheckout() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.checkout();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }

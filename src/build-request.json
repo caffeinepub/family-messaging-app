@@ -1,75 +1,134 @@
 {
   "kind": "build_request",
-  "title": "Fix UI blur and improve WhatsApp-like usability",
-  "projectName": "Family Chat",
-  "priority": "high",
+  "title": "Transform app into Bhai Bhai Fertilizer e-commerce platform",
+  "projectName": "Bhai Bhai Fertilizer",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-7",
-      "text": "Remove or reduce any CSS blur effects that are making the interface difficult to read or interact with",
-      "target": "frontend",
+      "id": "REQ-10",
+      "text": "Replace the family messaging application with an e-commerce platform for Bhai Bhai Fertilizer company",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-5"
         ],
         "quotes": [
-          "THERE IS SOME BLUR & NOT ABLE TOUSE LIKE WHATSAPP"
+          "MAKE A FERTILIZER COMPANY NAMED BHAI  BHAI FERTILIZER SO THAT I CAN SELL PRODUCTS"
         ]
       },
       "acceptanceCriteria": [
-        "All text and UI elements are sharp and clearly readable",
-        "No visual blur effects obstruct user interaction",
-        "Interface renders crisply on standard displays"
+        "Application is rebranded as Bhai Bhai Fertilizer",
+        "Messaging functionality is removed",
+        "E-commerce functionality is implemented"
       ]
     },
     {
-      "id": "REQ-8",
-      "text": "Improve overall interface responsiveness and interaction patterns to match WhatsApp-style usability expectations",
-      "target": "frontend",
+      "id": "REQ-11",
+      "text": "Implement a product catalog system to display fertilizer products with name, description, price, and product images",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-5"
         ],
         "quotes": [
-          "NOT ABLE TOUSE LIKE WHATSAPP"
+          "SO THAT I CAN SELL PRODUCTS"
         ]
       },
       "acceptanceCriteria": [
-        "Message sending is instant and responsive",
-        "Chat interactions feel smooth and natural",
-        "Navigation between conversations is fluid",
-        "Touch/click targets are appropriately sized and responsive"
+        "Products can be stored and retrieved from backend",
+        "Product catalog displays all available fertilizer products",
+        "Each product shows name, description, price, and image"
       ]
     },
     {
-      "id": "REQ-9",
-      "text": "Review and optimize ChatView background styling to ensure it does not interfere with content readability",
-      "target": "frontend",
+      "id": "REQ-12",
+      "text": "Create a shopping cart system that allows customers to add products, adjust quantities, and view cart total",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-5"
+        ],
+        "quotes": [
+          "SO THAT I CAN SELL PRODUCTS"
         ]
       },
       "acceptanceCriteria": [
-        "Background images or patterns do not reduce text contrast",
-        "Message bubbles are clearly distinguishable from the background",
-        "All UI controls remain visible and accessible"
+        "Customers can add products to cart",
+        "Customers can adjust product quantities in cart",
+        "Cart displays subtotal and total price",
+        "Cart persists during session"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Implement a checkout process that allows customers to complete purchases with order confirmation",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "SO THAT I CAN SELL PRODUCTS"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Customers can proceed from cart to checkout",
+        "Checkout collects shipping and contact information",
+        "Orders are stored in backend with unique order IDs",
+        "Order confirmation is displayed after successful purchase"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Implement customer authentication using Internet Identity to allow customers to securely log in and manage their orders",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Customers can log in using Internet Identity",
+        "Customer profiles are stored with order history",
+        "Authenticated customers can view their past orders"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Design a professional e-commerce visual theme for a fertilizer company with agricultural colors (greens and earth tones), clear product photography layouts, and trust-building design elements that convey reliability and expertise in the agriculture sector",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Visual theme uses agricultural color palette",
+        "Layout is optimized for product browsing and purchasing",
+        "Design conveys professionalism and trustworthiness"
       ]
     }
   ],
   "constraints": [
-    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
-    "Maintain the existing warm, family-friendly visual theme while fixing blur issues",
-    "Preserve all existing messaging and authentication functionality"
+    "Must use Internet Identity for authentication",
+    "Must use Motoko for backend logic in a single actor",
+    "Must use React with TypeScript for frontend",
+    "Must use Tailwind CSS for styling"
   ],
   "nonGoals": [
-    "Adding new messaging features",
-    "Changing the authentication system",
-    "Modifying the backend data model",
-    "Redesigning the entire visual theme"
+    "Payment gateway integration (Stripe or other payment processors)",
+    "Inventory management system",
+    "Admin dashboard for managing products",
+    "Real-time messaging or chat features",
+    "Mobile app development",
+    "Third-party shipping integrations"
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Bhai Bhai Fertilizer company logo with agricultural theme in green and earth tones (logo.dim_200x200.png)",
+      "Hero banner image showing lush green farmland with fertilizer application (hero-banner.dim_1200x400.png)",
+      "Generic fertilizer product bag illustration with green and brown colors (product-placeholder.dim_400x400.png)"
+    ],
     "edits": []
   }
 }

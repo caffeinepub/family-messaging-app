@@ -4,57 +4,96 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Label } from './ui/label';
-import { Loader2, LogIn } from 'lucide-react';
-import { useRegisterUser, useUserProfile } from '../hooks/useQueries';
+import { Loader2, LogIn, Sprout } from 'lucide-react';
+import { useSaveCallerUserProfile, useGetCallerUserProfile } from '../hooks/useQueries';
+import type { UserProfile } from '../backend';
 
 export function AuthScreen() {
   const { login, isLoggingIn, identity } = useInternetIdentity();
-  const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
-  const registerUser = useRegisterUser();
-  const [username, setUsername] = useState('');
+  const { data: userProfile, isLoading: profileLoading, isFetched } = useGetCallerUserProfile();
+  const saveProfile = useSaveCallerUserProfile();
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    shippingAddress: '',
+  });
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username.trim()) {
-      registerUser.mutate(username.trim());
+    if (formData.name.trim() && formData.email.trim()) {
+      const profile: UserProfile = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        shippingAddress: formData.shippingAddress.trim(),
+      };
+      saveProfile.mutate(profile);
     }
   };
 
-  // Show registration form if logged in but not registered
-  if (identity && !isLoadingProfile && !userProfile) {
+  // Show registration form if logged in but no profile
+  const showProfileSetup = identity && !profileLoading && isFetched && userProfile === null;
+
+  if (showProfileSetup) {
     return (
       <div className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md shadow-warm">
+        <Card className="w-full max-w-md shadow-agricultural">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Welcome to Family Chat!</CardTitle>
-            <CardDescription>Choose a username to get started</CardDescription>
+            <div className="mx-auto mb-4">
+              <Sprout className="h-12 w-12 text-primary mx-auto" />
+            </div>
+            <CardTitle className="text-2xl">Welcome to Bhai Bhai Fertilizer!</CardTitle>
+            <CardDescription>Complete your profile to start shopping</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleRegister} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="name">Full Name *</Label>
                 <Input
-                  id="username"
+                  id="name"
                   type="text"
                   placeholder="Enter your name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  disabled={registerUser.isPending}
-                  className="text-base"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  disabled={saveProfile.isPending}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  disabled={saveProfile.isPending}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="address">Shipping Address</Label>
+                <Input
+                  id="address"
+                  type="text"
+                  placeholder="Your delivery address"
+                  value={formData.shippingAddress}
+                  onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
+                  disabled={saveProfile.isPending}
                 />
               </div>
               <Button
                 type="submit"
                 className="w-full"
-                disabled={!username.trim() || registerUser.isPending}
+                disabled={!formData.name.trim() || !formData.email.trim() || saveProfile.isPending}
               >
-                {registerUser.isPending ? (
+                {saveProfile.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating Profile...
                   </>
                 ) : (
-                  'Continue'
+                  'Continue to Shop'
                 )}
               </Button>
             </form>
@@ -66,20 +105,20 @@ export function AuthScreen() {
 
   // Show login screen
   return (
-    <div className="flex-1 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-warm">
+    <div className="flex-1 flex items-center justify-center p-4 bg-gradient-to-b from-background to-muted/20">
+      <Card className="w-full max-w-md shadow-agricultural">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto">
             <img 
-              src="/assets/generated/chat-logo.dim_128x128.png" 
-              alt="Family Chat" 
-              className="w-24 h-24 mx-auto rounded-full shadow-warm"
+              src="/assets/generated/logo.dim_200x200.png" 
+              alt="Bhai Bhai Fertilizer" 
+              className="w-24 h-24 mx-auto rounded-xl shadow-agricultural"
             />
           </div>
           <div>
-            <CardTitle className="text-3xl">Family Chat</CardTitle>
+            <CardTitle className="text-3xl font-bold">Bhai Bhai Fertilizer</CardTitle>
             <CardDescription className="text-base mt-2">
-              Connect with your family members in a simple, secure way
+              Premium quality fertilizers for healthy crops and abundant harvests
             </CardDescription>
           </div>
         </CardHeader>
@@ -98,7 +137,7 @@ export function AuthScreen() {
             ) : (
               <>
                 <LogIn className="mr-2 h-5 w-5" />
-                Sign In
+                Sign In to Shop
               </>
             )}
           </Button>

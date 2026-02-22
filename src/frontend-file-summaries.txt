@@ -1,12 +1,21 @@
 {
-  "frontend/src/index.css": "Global styles with warm family-friendly OKLCH color palette, crisp message bubble utilities without blur effects, optimized font rendering with antialiasing, and smooth slide-in animations for messages.",
-  "frontend/tailwind.config.js": "Tailwind configuration extended with warm color palette, Inter font family, custom shadows, and slide-in animations for a welcoming family chat aesthetic.",
-  "frontend/src/hooks/useQueries.ts": "React Query hooks with optimized 2-second polling interval for faster message updates, optimistic mutation handling for instant UI feedback, and proper error recovery with query invalidation.",
-  "frontend/src/components/Layout.tsx": "Main layout wrapper component with header featuring app logo, footer with attribution, and consistent warm styling throughout the application.",
-  "frontend/src/components/AuthScreen.tsx": "Authentication and registration screen that handles Internet Identity login and username setup for new users with warm, inviting card design.",
+  "frontend/src/index.css": "Global styles with agricultural color palette using greens and earth tones in OKLCH color space, e-commerce UI utilities, and professional styling.",
+  "frontend/tailwind.config.js": "Tailwind configuration with agricultural theme colors, custom shadows, and responsive design utilities for e-commerce layout.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profiles, products, cart management, and checkout with proper cache invalidation.",
+  "frontend/src/components/Layout.tsx": "Main layout wrapper with Bhai Bhai Fertilizer branding, navigation header with cart icon and user menu, and footer with agricultural theme.",
+  "frontend/src/components/AuthScreen.tsx": "Authentication screen handling Internet Identity login and user profile setup with name, email, and shipping address collection for new customers.",
   "frontend/src/components/FamilyMemberList.tsx": "Family member selection sidebar with enhanced touch targets (min 60px height), active press feedback (scale animation), improved hover states, and instant visual feedback on selection.",
   "frontend/src/components/MessageList.tsx": "Scrollable message display with smooth auto-scroll for new messages, improved message bubble max-width (75%), better text wrapping with break-words, and optimized date separator rendering.",
   "frontend/src/components/MessageInput.tsx": "Message composition component with instant textarea clearing on send for WhatsApp-like responsiveness, improved touch targets (60px height), and error recovery that restores message content on failure.",
   "frontend/src/components/ChatView.tsx": "Main chat interface with removed blur effects, optimized background overlay at 3% opacity, and crisp rendering of all UI elements including user info bar, family member list, and chat area.",
-  "frontend/src/App.tsx": "Root application component managing authentication flow, loading states, and conditional rendering of auth screen or chat interface based on user status."
+  "frontend/src/App.tsx": "Root application component with TanStack Router managing routes for product catalog, shopping cart, checkout, order confirmation, and user profile with authentication flow.",
+  "frontend/index.html": "HTML entry point with updated title for Bhai Bhai Fertilizer e-commerce platform.",
+  "frontend/src/components/HeroSection.tsx": "Hero banner component featuring agricultural imagery, trust badges, and compelling messaging about quality fertilizers.",
+  "frontend/src/components/ProductCatalog.tsx": "Main product browsing page displaying all available fertilizer products in a responsive grid with hero section.",
+  "frontend/src/components/ProductCard.tsx": "Reusable product card component showing product image, name, description, price, and add-to-cart functionality with loading states.",
+  "frontend/src/components/CartIcon.tsx": "Shopping cart icon with item count badge for header navigation.",
+  "frontend/src/components/ShoppingCart.tsx": "Shopping cart view displaying cart items with quantity controls, item removal, cart total, and checkout button.",
+  "frontend/src/components/CheckoutForm.tsx": "Checkout form collecting shipping address and displaying order summary before purchase completion.",
+  "frontend/src/components/OrderConfirmation.tsx": "Order confirmation page showing success message after successful checkout.",
+  "frontend/src/components/UserProfile.tsx": "User profile management page allowing customers to view and edit their contact information and shipping address."
 }

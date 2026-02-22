@@ -16,7 +16,7 @@ export default {
         },
         extend: {
             fontFamily: {
-                sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
             },
             colors: {
                 border: 'oklch(var(--border))',
@@ -77,7 +77,7 @@ export default {
             },
             boxShadow: {
                 xs: '0 1px 2px 0 rgba(0,0,0,0.05)',
-                warm: '0 4px 20px rgba(255, 140, 100, 0.15)',
+                agricultural: '0 4px 20px rgba(34, 197, 94, 0.15)',
             },
             keyframes: {
                 'accordion-down': {
@@ -88,7 +88,7 @@ export default {
                     from: { height: 'var(--radix-accordion-content-height)' },
                     to: { height: '0' }
                 },
-                'slide-in': {
+                'fade-in': {
                     from: { transform: 'translateY(10px)', opacity: '0' },
                     to: { transform: 'translateY(0)', opacity: '1' }
                 }
@@ -96,7 +96,7 @@ export default {
             animation: {
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
-                'slide-in': 'slide-in 0.3s ease-out'
+                'fade-in': 'fade-in 0.3s ease-out'
             }
         }
     },

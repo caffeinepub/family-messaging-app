@@ -10,24 +10,70 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface Message {
-  'content' : string,
-  'sender' : Principal,
-  'timestamp' : bigint,
+export interface CartItem { 'quantity' : bigint, 'product' : Product }
+export type ExternalBlob = Uint8Array;
+export interface Product {
+  'name' : string,
+  'description' : string,
+  'image' : ExternalBlob,
+  'price' : bigint,
 }
+export interface ShoppingCart { 'total' : bigint, 'items' : Array<CartItem> }
 export interface UserProfile {
-  'username' : string,
-  'messages' : Array<Message>,
-  'userID' : Principal,
+  'name' : string,
+  'email' : string,
+  'shippingAddress' : string,
+}
+export type UserRole = { 'admin' : null } |
+  { 'user' : null } |
+  { 'guest' : null };
+export interface _CaffeineStorageCreateCertificateResult {
+  'method' : string,
+  'blob_hash' : string,
+}
+export interface _CaffeineStorageRefillInformation {
+  'proposed_top_up_amount' : [] | [bigint],
+}
+export interface _CaffeineStorageRefillResult {
+  'success' : [] | [boolean],
+  'topped_up_amount' : [] | [bigint],
 }
 export interface _SERVICE {
-  'clearMessages' : ActorMethod<[], undefined>,
-  'getAllUserProfiles' : ActorMethod<[], Array<UserProfile>>,
-  'getFamilyMemberList' : ActorMethod<[], Array<UserProfile>>,
-  'getMessages' : ActorMethod<[], Array<Message>>,
-  'getUserProfile' : ActorMethod<[], UserProfile>,
-  'registerUser' : ActorMethod<[string], undefined>,
-  'sendMessage' : ActorMethod<[Principal, string, bigint], undefined>,
+  '_caffeineStorageBlobIsLive' : ActorMethod<[Uint8Array], boolean>,
+  '_caffeineStorageBlobsToDelete' : ActorMethod<[], Array<Uint8Array>>,
+  '_caffeineStorageConfirmBlobDeletion' : ActorMethod<
+    [Array<Uint8Array>],
+    undefined
+  >,
+  '_caffeineStorageCreateCertificate' : ActorMethod<
+    [string],
+    _CaffeineStorageCreateCertificateResult
+  >,
+  '_caffeineStorageRefillCashier' : ActorMethod<
+    [[] | [_CaffeineStorageRefillInformation]],
+    _CaffeineStorageRefillResult
+  >,
+  '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
+  '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
+  'addItemToCart' : ActorMethod<[string, bigint], undefined>,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'checkout' : ActorMethod<[], undefined>,
+  'clearCart' : ActorMethod<[], undefined>,
+  'createProduct' : ActorMethod<
+    [string, string, string, bigint, ExternalBlob],
+    undefined
+  >,
+  'deleteProduct' : ActorMethod<[string], undefined>,
+  'getAllProducts' : ActorMethod<[], Array<Product>>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getCart' : ActorMethod<[], ShoppingCart>,
+  'getProduct' : ActorMethod<[string], [] | [Product]>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'isCallerAdmin' : ActorMethod<[], boolean>,
+  'removeItemFromCart' : ActorMethod<[bigint], undefined>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'updateProductPrice' : ActorMethod<[string, bigint], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];
