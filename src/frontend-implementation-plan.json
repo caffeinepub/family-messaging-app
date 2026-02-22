@@ -1,0 +1,81 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Fix UI blur and improve WhatsApp-like usability",
+  "requirements": [
+    {
+      "id": "REQ-7",
+      "summary": "Remove or reduce CSS blur effects to improve readability and interaction",
+      "acceptanceCriteria": [
+        "All text and UI elements are sharp and clearly readable",
+        "No visual blur effects obstruct user interaction",
+        "Interface renders crisply on standard displays"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ChatView.tsx",
+          "operation": "modify",
+          "description": "Remove or reduce backdrop-blur CSS class from the background image container to eliminate blur effects that obstruct content readability. Ensure the background image does not interfere with message visibility."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Review and remove any global blur-related CSS properties or utility classes that may be causing interface elements to appear blurry. Ensure all text rendering is optimized for clarity with appropriate font-smoothing settings."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Improve interface responsiveness and interaction patterns to match WhatsApp-style usability",
+      "acceptanceCriteria": [
+        "Message sending is instant and responsive",
+        "Chat interactions feel smooth and natural",
+        "Navigation between conversations is fluid",
+        "Touch/click targets are appropriately sized and responsive"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/MessageInput.tsx",
+          "operation": "modify",
+          "description": "Optimize message sending flow to provide immediate visual feedback. Ensure the textarea clears instantly on send, add optimistic UI updates, and improve button responsiveness. Verify touch targets meet minimum size requirements (44x44px) for mobile usability."
+        },
+        {
+          "path": "frontend/src/components/MessageList.tsx",
+          "operation": "modify",
+          "description": "Enhance message list scrolling smoothness and auto-scroll behavior. Ensure message rendering is performant and that new messages appear instantly with smooth animations. Optimize the date separator rendering to avoid layout shifts."
+        },
+        {
+          "path": "frontend/src/components/FamilyMemberList.tsx",
+          "operation": "modify",
+          "description": "Improve family member selection responsiveness with instant visual feedback. Ensure click/tap targets are appropriately sized and that selection state changes are immediate and clear. Add hover states for better desktop usability."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Review and optimize the message polling interval (currently 3 seconds) and implement optimistic updates for sendMessage mutation to provide instant feedback when sending messages, matching WhatsApp's immediate response pattern."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Optimize ChatView background styling to ensure content readability",
+      "acceptanceCriteria": [
+        "Background images or patterns do not reduce text contrast",
+        "Message bubbles are clearly distinguishable from the background",
+        "All UI controls remain visible and accessible"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ChatView.tsx",
+          "operation": "modify",
+          "description": "Adjust the background image opacity, overlay, or positioning to ensure message content remains readable. The generated background image at frontend/public/assets/generated/chat-background.dim_1200x800.png should be used with appropriate opacity or overlay to prevent contrast issues. Ensure message bubbles have sufficient contrast against the background."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Review and enhance message bubble styling utilities to ensure they provide adequate contrast against the background. Adjust background colors, borders, or shadows on message bubbles to ensure clear visual separation from the ChatView background."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-remove-or-reduce-any-css-blur-effects-that-are-making-the-interface-difficult-to-read-or-interact-with",
+      "featureTitle": "Remove or reduce any CSS blur effects that are making the interface difficult to read or interact with",
+      "files": [
+        "frontend/src/components/ChatView.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-improve-overall-interface-responsiveness-and-interaction-patterns-to-match-whatsapp-style-usability-expectations",
+      "featureTitle": "Improve overall interface responsiveness and interaction patterns to match WhatsApp-style usability expectations",
+      "files": [
+        "frontend/src/components/FamilyMemberList.tsx",
+        "frontend/src/components/MessageInput.tsx",
+        "frontend/src/components/MessageList.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-review-and-optimize-chatview-background-styling-to-ensure-it-does-not-interfere-with-content-readability",
+      "featureTitle": "Review and optimize ChatView background styling to ensure it does not interfere with content readability",
+      "files": [
+        "frontend/src/components/ChatView.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

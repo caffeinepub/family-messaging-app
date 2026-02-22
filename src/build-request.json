@@ -1,0 +1,75 @@
+{
+  "kind": "build_request",
+  "title": "Fix UI blur and improve WhatsApp-like usability",
+  "projectName": "Family Chat",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-7",
+      "text": "Remove or reduce any CSS blur effects that are making the interface difficult to read or interact with",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "THERE IS SOME BLUR & NOT ABLE TOUSE LIKE WHATSAPP"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All text and UI elements are sharp and clearly readable",
+        "No visual blur effects obstruct user interaction",
+        "Interface renders crisply on standard displays"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Improve overall interface responsiveness and interaction patterns to match WhatsApp-style usability expectations",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "NOT ABLE TOUSE LIKE WHATSAPP"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Message sending is instant and responsive",
+        "Chat interactions feel smooth and natural",
+        "Navigation between conversations is fluid",
+        "Touch/click targets are appropriately sized and responsive"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Review and optimize ChatView background styling to ensure it does not interfere with content readability",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Background images or patterns do not reduce text contrast",
+        "Message bubbles are clearly distinguishable from the background",
+        "All UI controls remain visible and accessible"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
+    "Maintain the existing warm, family-friendly visual theme while fixing blur issues",
+    "Preserve all existing messaging and authentication functionality"
+  ],
+  "nonGoals": [
+    "Adding new messaging features",
+    "Changing the authentication system",
+    "Modifying the backend data model",
+    "Redesigning the entire visual theme"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

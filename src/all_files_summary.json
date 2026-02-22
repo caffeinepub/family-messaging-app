@@ -1,0 +1,21 @@
+{
+  "backend/main.mo": "Motoko actor implementing a family messaging backend with user registration, profile management, message sending/receiving, and family member listing using a Map-based storage for UserProfiles.",
+  "feature_evidence.json": "Feature evidence report documenting three UI improvements: removing CSS blur effects, improving WhatsApp-style responsiveness, and optimizing ChatView background styling for better readability.",
+  "frontend-file-summaries.txt": "JSON summary of frontend files describing optimizations including blur removal, 2-second polling, enhanced touch targets, improved message bubbles, and WhatsApp-like interaction patterns.",
+  "frontend/index.css": "Tailwind CSS configuration with OKLCH color variables for light/dark themes, defining a warm color palette and base styling for the family chat application.",
+  "frontend/index.html": "HTML entry point with viewport meta tag, app title, and root div mounting the React application via main.tsx.",
+  "frontend/src/App.tsx": "Root React component managing authentication flow, conditionally rendering AuthScreen or ChatView based on Internet Identity login and user profile status.",
+  "frontend/src/components/AuthScreen.tsx": "Authentication UI component handling Internet Identity login and username registration with card-based layout and loading states.",
+  "frontend/src/components/ChatView.tsx": "Main chat interface with user info bar, family member sidebar, and chat area featuring a subtle background overlay (3% opacity, no blur) and responsive mobile/desktop layouts.",
+  "frontend/src/components/FamilyMemberList.tsx": "Scrollable family member list with enhanced touch targets (60px min-height), active press feedback, avatar initials, and selection state management for chat navigation.",
+  "frontend/src/components/Layout.tsx": "Application layout wrapper providing header with logo/title, main content area, and footer with attribution link to caffeine.ai.",
+  "frontend/src/components/MessageInput.tsx": "A form component with a textarea and send button for composing and sending messages to a selected family member. Handles Enter key submission, optimistic UI updates, and error recovery by restoring message content on send failure.",
+  "frontend/src/components/MessageList.tsx": "Displays a scrollable list of messages in a conversation with a selected family member, showing message bubbles with timestamps and date separators. Auto-scrolls to bottom on new messages and shows empty states when no member is selected or no messages exist.",
+  "frontend/src/hooks/useActor.ts": "Custom hook that creates and manages an ICP actor instance based on the current Internet Identity authentication state. Automatically invalidates and refetches dependent queries when the actor changes due to identity changes.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides Internet Identity authentication context and hooks for managing user login/logout with ICP. Includes AuthClient creation, identity persistence, and status tracking throughout the authentication lifecycle.",
+  "frontend/src/hooks/useQueries.ts": "Defines React Query hooks for all backend operations including user profile management, family member listing, message fetching (with 2-second polling), and message sending with optimistic updates. Each mutation invalidates relevant queries to keep UI synchronized.",
+  "frontend/src/index.css": "Tailwind CSS configuration with custom design tokens defining a warm, family-friendly color palette using OKLCH color space. Includes light/dark mode themes, message bubble styles, and smooth animation utilities.",
+  "frontend/src/main.tsx": "Application entry point that sets up the React root with QueryClientProvider for React Query and InternetIdentityProvider for ICP authentication.",
+  "frontend/tailwind.config.js": "Tailwind configuration extending the default theme with custom colors (using OKLCH), typography, container queries, animations, and design tokens for a warm family-oriented UI aesthetic.",
+  "project_state.json": "Project state file tracking a WhatsApp-like family messaging app with Internet Identity authentication, real-time chat, and contact lists. Documents known UI blur issues and usability problems requiring fixes."
+}
